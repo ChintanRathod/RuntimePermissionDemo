@@ -60,6 +60,9 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
         btnReadPhoneCalls.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**
+                 * Check build version
+                 */
                 if(Build.VERSION.SDK_INT < 23){
                     displayCallLogs();
                 }else {
