@@ -100,56 +100,60 @@ public class MainActivity extends AppCompatActivity implements ActivityCompat.On
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-        if(requestCode == READ_CONTACT_REQUEST_CODE){
-            Log.i("Permission", "Received response for Contact permission request.");
+        switch (requestCode){
+            case READ_CONTACT_REQUEST_CODE:
 
-            // Check if the only required permission has been granted
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Camera permission has been granted, preview can be displayed
-                Log.i("Permission", "Contact permission has now been granted. Showing result.");
-                Toast.makeText(MainActivity.this,"Contact Permission is Granted",Toast.LENGTH_SHORT).show();
+                // Check if the only required permission has been granted
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Camera permission has been granted, preview can be displayed
+                    Log.i("Permission", "Contact permission has now been granted. Showing result.");
+                    Toast.makeText(MainActivity.this,"Contact Permission is Granted",Toast.LENGTH_SHORT).show();
 
-                displayContacts();
+                    displayContacts();
 
-            } else {
-                Log.i("Permission", "Contact permission was NOT granted.");
-                Toast.makeText(MainActivity.this,"Permission is not Granted",Toast.LENGTH_SHORT).show();
-            }
-
-        }else if(requestCode == READ_CALL_LOG_REQUEST_CODE){
-            // Permission has not been granted and must be requested.
-            // Check if the only required permission has been granted
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(MainActivity.this,"Read call log Permission is Granted",Toast.LENGTH_SHORT).show();
-                displayCallLogs();
-            }else {
-                Toast.makeText(MainActivity.this,"Read call log Permission is not Granted",Toast.LENGTH_SHORT).show();
-
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                        Manifest.permission.READ_CALL_LOG)) {
-                    // Provide an additional rationale to the user if the permission was not granted
-                    // and the user would benefit from additional context for the use of the permission.
-                    // Display a SnackBar with a button to request the missing permission.
-                    new AlertDialog.Builder(MainActivity.this)
-                            .setTitle("Required Attention")
-                            .setMessage("Phone state permission is require to check your phone status")
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_CALL_LOG},
-                                            READ_CALL_LOG_REQUEST_CODE);
-                                }
-                            })
-                            .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // do nothing
-                                }
-                            })
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .show();
+                } else {
+                    Log.i("Permission", "Contact permission was NOT granted.");
+                    Toast.makeText(MainActivity.this,"Permission is not Granted",Toast.LENGTH_SHORT).show();
                 }
-            }
-        }
 
+                break;
+
+            case READ_CALL_LOG_REQUEST_CODE:
+
+                // Permission has not been granted and must be requested.
+                // Check if the only required permission has been granted
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(MainActivity.this,"Read call log Permission is Granted",Toast.LENGTH_SHORT).show();
+                    displayCallLogs();
+                }else {
+                    Toast.makeText(MainActivity.this,"Read call log Permission is not Granted",Toast.LENGTH_SHORT).show();
+
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                            Manifest.permission.READ_CALL_LOG)) {
+                        // Provide an additional rationale to the user if the permission was not granted
+                        // and the user would benefit from additional context for the use of the permission.
+                        // Display a SnackBar with a button to request the missing permission.
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("Required Attention")
+                                .setMessage("Phone state permission is require to check your phone status")
+                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_CALL_LOG},
+                                                READ_CALL_LOG_REQUEST_CODE);
+                                    }
+                                })
+                                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // do nothing
+                                    }
+                                })
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .show();
+                    }
+                }
+
+                break;
+        }
     }
 
     private void displayContacts() {
